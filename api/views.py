@@ -13,6 +13,9 @@ from django.utils.translation import gettext_lazy as _
 from django.shortcuts import get_object_or_404
 import logging
 
+# Add media serving view
+from django.views.static import serve
+
 logger = logging.getLogger(__name__)
 
 class UserRegistrationView(APIView):
@@ -364,3 +367,7 @@ class ReportView(APIView):
             'total_users': User.objects.count(),
         }
         return Response(data)
+
+# Media serving view
+def serve_media(request, path):
+    return serve(request, path, document_root=settings.MEDIA_ROOT)

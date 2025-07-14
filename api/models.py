@@ -28,7 +28,7 @@ class Property(models.Model):
     viewing_fee = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='vacant')
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='property_images/', null=True, blank=True)
+    image = models.ImageField(upload_to='property_images/', null=True, blank=True)  # Primary image
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_approved = models.BooleanField(default=False)
@@ -39,6 +39,9 @@ class Property(models.Model):
 
     def __str__(self):
         return f"{self.area}, {self.district}"
+
+    def get_image_url(self):
+        return self.image.url if self.image else ''
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, related_name='images', on_delete=models.CASCADE)
